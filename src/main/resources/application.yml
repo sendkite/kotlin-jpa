@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    jdbc-url: jdbc:h2:tcp://localhost/~/kotlin-demo;MVCC=TRUE
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+        hibernate:
+          format_sql: true
+
+# no use while using p6spy on dev env
+#logging:
+#  level:
+#    org.hibernate.SQL: DEBUG
+#    org.hibernate.type: TRACE
