@@ -1,6 +1,6 @@
 spring:
   datasource:
-    jdbc-url: jdbc:h2:tcp://localhost/~/kotlin-demo;MVCC=TRUE
+    url: jdbc:h2:tcp://localhost/~/kotlin-demo;
     username: sa
     password:
     driver-class-name: org.h2.Driver

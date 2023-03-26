@@ -6,9 +6,9 @@ import jakarta.persistence.*
 @DiscriminatorValue("B")
 class Book: Item() {
 
-    @Column(name = "author", nullable = false)
+    @Column(name = "author", nullable = true)
     var author: String? = null
 
-    @Column(name = "isbn", nullable = false)
+    @Column(name = "isbn", nullable = true)
     var isbn: String? = null
 }

@@ -8,9 +8,9 @@ import jakarta.persistence.Entity
 @DiscriminatorValue("M")
 class Movie: Item() {
 
-    @Column(name = "director", nullable = false)
+    @Column(name = "director", nullable = true)
     var director: String? = null
 
-    @Column(name = "actor", nullable = false)
+    @Column(name = "actor", nullable = true)
     var actor: String? = null
 }

@@ -22,4 +22,22 @@ class OrderItem {
     var orderPrice: Int? = null
 
     var count: Int? = null
+
+    // 생성 메서드
+    fun createOrderItem(item: Item, orderPrice: Int, count: Int): OrderItem {
+        this.item = item
+        this.orderPrice = orderPrice
+        this.count = count
+        item.removeStock(count)
+        return this
+    }
+
+    // 비즈니스 로직
+    fun cancel() {
+        item?.addStock(count!!)
+    }
+
+    fun getTotalPrice(): Int {
+        return orderPrice!! * count!!
+    }
 }

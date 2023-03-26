@@ -1,5 +1,6 @@
 package com.prac.demo.common.entity
 
+import com.prac.demo.common.enum.DeliveryStatus
 import com.prac.demo.common.enum.OrderStatus
 import jakarta.persistence.*
 import java.time.LocalDateTime
@@ -30,19 +31,39 @@ class Order {
     @Enumerated(EnumType.STRING)
     var status: OrderStatus? = null
 
-//    // 양방향 일때 연관관계 편의 메서드
-//    fun addOrderItem(orderItem: OrderItem) {
-//        orderItems?.add(orderItem)
-//        orderItem.order = this
-//    }
-//
-//    fun setDelivery(delivery: Delivery) {
-//        this.delivery = delivery
-//        delivery.order = this
-//    }
-//
-//    fun setMember(member: Member) {
-//        this.member = member
-//        member.orders?.add(this)
-//    }
+    // 생성 메서드
+    fun createOrder(member: Member, delivery: Delivery, vararg orderItems: OrderItem): Order {
+        val order = Order().apply {
+            this.orderDate = LocalDateTime.now()
+            this.status = OrderStatus.ORDER
+            this.member = member.apply { this.orders?.add(this@Order) }
+            this.delivery = delivery.apply { this.order = this@Order }
+        }
+        for (orderItem in orderItems) {
+            order.addOrderItem(orderItem)
+        }
+        return order
+    }
+
+    // 비즈니스 로직
+    fun cancel() {
+        if (delivery?.status == DeliveryStatus.COMP) {
+            throw IllegalStateException("이미 배송완료된 상품은 취소가 불가능합니다.")
+        }
+        this.status = OrderStatus.CANCEL
+        for (orderItem in orderItems!!) {
+            orderItem.cancel()
+        }
+    }
+
+    // 조회 로직
+    fun getTotalPrice(): Int {
+        return orderItems!!.sumOf { it.getTotalPrice() }
+    }
+
+    // 양방향 일때 연관관계 편의 메서드
+    fun addOrderItem(orderItem: OrderItem) {
+        orderItems?.add(orderItem)
+        orderItem.order = this
+    }
 }
